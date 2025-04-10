@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>eBanking – Mein Konto</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,7 +14,7 @@
     }
 
     .container {
-      max-width: 500px;
+      max-width: 800px;
       margin: 60px auto;
       background-color: #fff;
       border-radius: 12px;
@@ -27,7 +28,7 @@
       max-width: 160px;
     }
 
-    h2 {
+    h2, h3 {
       text-align: center;
       color: #000;
     }
@@ -69,11 +70,6 @@
       display: none;
     }
 
-    .dashboard h3 {
-      margin-top: 0;
-      color: #000;
-    }
-
     .info-box {
       background-color: #f0f0f0;
       border-radius: 8px;
@@ -81,9 +77,31 @@
       margin-top: 15px;
     }
 
+    .transaction-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .transaction-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
     .logout {
       background-color: #999;
       margin-top: 20px;
+    }
+
+    .chart-container {
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+      }
     }
   </style>
 </head>
@@ -102,24 +120,33 @@
 
   <div class="container dashboard" id="dashboard">
     <img class="logo" src="https://www.szkb.ch/ResourcePackages/CorporateWebsite/assets/dist/img/szkb-logo.svg" alt="ZKB Logo">
-    <h2>Willkommen zurück!</h2>
+    <h2>Willkommen, demo!</h2>
+
     <div class="info-box">
-      <h3>Kontostand</h3>
+      <h3>Hauptkonto</h3>
       <p><strong>CHF 48'520.00</strong></p>
+      <p>IBAN: CH93 0076 2011 6238 5295 7</p>
     </div>
 
     <div class="info-box">
-      <h3>IBAN</h3>
-      <p>CH93 0076 2011 6238 5295 7</p>
+      <h3>Sparkonto</h3>
+      <p><strong>CHF 12'300.00</strong></p>
+      <p>IBAN: CH33 0076 9011 2345 6789 0</p>
     </div>
 
     <div class="info-box">
-      <h3>Letzte Bewegungen</h3>
-      <ul>
-        <li>+ CHF 5'000.00 – Gutschrift Gehalt</li>
-        <li>− CHF 120.00 – Online-Einkauf</li>
-        <li>− CHF 58.40 – Restaurantzahlung</li>
+      <h3>Letzte Transaktionen</h3>
+      <ul class="transaction-list">
+        <li><span>+ CHF 5'000.00 – Gehalt</span><span>01.04.2025</span></li>
+        <li><span>− CHF 120.00 – Zalando</span><span>28.03.2025</span></li>
+        <li><span>− CHF 58.40 – Restaurant</span><span>26.03.2025</span></li>
+        <li><span>− CHF 650.00 – Miete</span><span>25.03.2025</span></li>
       </ul>
+    </div>
+
+    <div class="info-box chart-container">
+      <h3>Vermögensentwicklung</h3>
+      <canvas id="balanceChart" height="100"></canvas>
     </div>
 
     <button class="logout" onclick="logout()">Abmelden</button>
@@ -133,6 +160,7 @@
       if (user === 'demo' && pass === '1234') {
         document.getElementById('login-container').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
+        renderChart();
       } else {
         alert('Falsche Zugangsdaten');
       }
@@ -141,6 +169,37 @@
     function logout() {
       document.getElementById('dashboard').style.display = 'none';
       document.getElementById('login-container').style.display = 'block';
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('balanceChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mär', 'Apr'],
+          datasets: [{
+            label: 'CHF',
+            data: [42000, 43000, 47000, 48520],
+            borderColor: '#ef2c30',
+            backgroundColor: 'rgba(239, 44, 48, 0.1)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
     }
   </script>
 </body>
