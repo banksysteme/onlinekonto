@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eBanking – Mein Konto</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f6f6f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 25px;
+      max-width: 160px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #000;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      background-color: #ef2c30;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #7a0810;
+    }
+
+    .dashboard {
+      display: none;
+    }
+
+    .dashboard h3 {
+      margin-top: 0;
+      color: #000;
+    }
+
+    .info-box {
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .logout {
+      background-color: #999;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="login-container">
+    <img class="logo" src="https://www.szkb.ch/ResourcePackages/CorporateWebsite/assets/dist/img/szkb-logo.svg" alt="ZKB Logo">
+    <h2>eBanking Login</h2>
+    <label for="username">Benutzername</label>
+    <input type="text" id="username" required>
+
+    <label for="password">Passwort</label>
+    <input type="password" id="password" required>
+
+    <button onclick="checkLogin()">Anmelden</button>
+  </div>
+
+  <div class="container dashboard" id="dashboard">
+    <img class="logo" src="https://www.szkb.ch/ResourcePackages/CorporateWebsite/assets/dist/img/szkb-logo.svg" alt="ZKB Logo">
+    <h2>Willkommen zurück!</h2>
+    <div class="info-box">
+      <h3>Kontostand</h3>
+      <p><strong>CHF 48'520.00</strong></p>
+    </div>
+
+    <div class="info-box">
+      <h3>IBAN</h3>
+      <p>CH93 0076 2011 6238 5295 7</p>
+    </div>
+
+    <div class="info-box">
+      <h3>Letzte Bewegungen</h3>
+      <ul>
+        <li>+ CHF 5'000.00 – Gutschrift Gehalt</li>
+        <li>− CHF 120.00 – Online-Einkauf</li>
+        <li>− CHF 58.40 – Restaurantzahlung</li>
+      </ul>
+    </div>
+
+    <button class="logout" onclick="logout()">Abmelden</button>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      if (user === 'demo' && pass === '1234') {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      } else {
+        alert('Falsche Zugangsdaten');
+      }
+    }
+
+    function logout() {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('login-container').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
